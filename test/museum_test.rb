@@ -59,9 +59,9 @@ class MuseumTest < Minitest::Test
 
     assert_equal [], @dmns.patrons
 
-    dmns.admit(patron_1)
-    dmns.admit(patron_2)
-    dmns.admit(patron_3)
+    @dmns.admit(patron_1)
+    @dmns.admit(patron_2)
+    @dmns.admit(patron_3)
 
     expected = {
       @gems_and_minerals => [patron_1],
