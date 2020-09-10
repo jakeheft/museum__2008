@@ -37,4 +37,16 @@ class Museum
     interested_patrons
   end
 
+  def draw_lottery_winner(exhibit)
+
+  end
+
+  def ticket_lottery_contestants(exhibit)
+
+  end
+
+  def announce_lottery_winner(exhibit)
+
+  end
+
 end
