@@ -72,4 +72,30 @@ class MuseumTest < Minitest::Test
     assert_equal [patron_1, patron_2, patron_3], @dmns.patrons
     assert_equal expected, @dmns.patrons_by_exhibit_interest
   end
+
+  def test_it_can_have_lottery_winners
+    patron_1 = Patron.new("Bob", 0)
+    patron_2 = Patron.new("Sally", 20)
+    patron_3 = Patron.new("Johnny", 5)
+
+    @dmns.add_exhibit(@gems_and_minerals)
+    @dmns.add_exhibit(@dead_sea_scrolls)
+    @dmns.add_exhibit(@imax)
+    patron_1.add_interest("Gems and Minerals")
+    patron_1.add_interest("Dead Sea Scrolls")
+    patron_2.add_interest("Dead Sea Scrolls")
+    patron_3.add_interest("Dead Sea Scrolls")
+    @dmns.admit(patron_1)
+    @dmns.admit(patron_2)
+    @dmns.admit(patron_3)
+
+    @dmns.stubs(draw_lottery_winner(@dead_sea_scrolls)).returns(patron_1.name)
+
+    assert_equal [patron_1, patron_3], @dmns.ticket_lottery_contestants(@dead_sea_scrolls)
+    assert_equal "Bob", @dmns.draw_lottery_winner(@dead_sea_scrolls)
+    assert_nil @dmns.draw_lottery_winner(@gems_and_minerals)
+
+    assert_equal "Bob has won the IMAX edhibit lottery", @dmns.announce_lottery_winner(@imax)
+    assert_equal "No winners for this lottery", @dmns.announce_lottery_winner(@gems_and_minerals)
+  end
 end
